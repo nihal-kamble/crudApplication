@@ -28,7 +28,11 @@ public class EmployeeController {
         employeeRepository.save(employeeToBeAdded);
         return employeeToBeAdded.getId();
     }
-
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
+        Employee employee = employeeRepository.findById(id).get();
+        return ResponseEntity.ok(employee);
+    }
     @PutMapping("/employees/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
         Employee employee = employeeRepository.findById(id).get();
@@ -43,7 +47,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteEmployee(Long id) {
+    public String deleteEmployee(@PathVariable Long id) {
         employeeRepository.deleteById(id);
         return "Employee with Id " + id + "has been deleted";
     }
